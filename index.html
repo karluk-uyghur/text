@@ -162,3 +162,204 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ug" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دوستۇمغا سالام خەت 💌</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Tahoma, Arial, sans-serif;
+      background: linear-gradient(135deg, #17194e, #512b82, #142b58);
+      color: white;
+      padding: 25px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #ffffff20;
+      padding: 25px;
+      border: 1px solid #ffffff55;
+      border-radius: 25px;
+      box-shadow: 0 15px 45px #0004;
+    }
+    h1 { text-align: center; color: #ffd6eb; }
+    label { display: block; margin: 16px 0 8px; }
+    input, textarea, select {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 12px;
+      font: inherit;
+      background: #fff;
+      color: #34264f;
+    }
+    textarea { min-height: 150px; line-height: 1.9; }
+    button {
+      margin-top: 12px;
+      padding: 13px;
+      border: 0;
+      border-radius: 12px;
+      font: inherit;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(90deg, #7c3aed, #ff3f91);
+      color: white;
+    }
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+    .card {
+      margin-top: 25px;
+      padding: 25px;
+      border-radius: 20px;
+      background: #fff0f6;
+      color: #6c1637;
+      line-height: 2;
+      overflow-wrap: anywhere;
+    }
+    .card h2 { text-align: center; color: #e52e79; }
+    #previewMessage { white-space: pre-wrap; }
+    #status { line-height: 1.8; }
+    @media (max-width: 500px) {
+      body { padding: 12px; }
+      .container { padding: 16px; }
+      .buttons button { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>💌 دوستۇمغا سالام خەت</h1>
+    <p style="text-align:center">دوستلۇق مەڭگۈلۈك بولسۇن ❤️</p>
+
+    <label for="friend">دوستىڭىزنىڭ ئىسمى</label>
+    <input id="friend" value="قەدىرلىك دوستۇم" placeholder="دوستىڭىزنىڭ ئىسمى">
+
+    <label for="message">سالام خېتىڭىز</label>
+    <textarea id="message">ئەسسالامۇ ئەلەيكۇم، قەدىرلىك دوستۇم!
+
+ياخشى تۇرىۋاتامسەن؟ سالامەتلىكىڭ ياخشىمۇ؟
+سېنى ئەسلەپ، قەلبىمدىن سالام يوللاۋاتىمەن.
+ساڭا بەخت، سالامەتلىك ۋە ئۇتۇق تىلەيمەن.
+
+دوستلۇق مەڭگۈلۈك بولسۇن! ❤️</textarea>
+
+    <label for="signature">ئىمزا</label>
+    <input id="signature" value="دوستۇڭ">
+
+    <label for="theme">كارتا رەڭگى</label>
+    <select id="theme">
+      <option value="pink">گۈلگۈن</option>
+      <option value="blue">كۆك</option>
+      <option value="gold">ئالتۇن</option>
+      <option value="green">يېشىل</option>
+    </select>
+
+    <div class="buttons">
+      <button onclick="updateCard()">✨ خەتنى تەييارلاش</button>
+      <button onclick="shareMessage()">📤 ھەمبەھىرلەش</button>
+      <button onclick="copyMessage()">📋 خەتنى كۆچۈرۈش</button>
+      <button onclick="downloadMessage()">⬇️ خەتنى چۈشۈرۈش</button>
+      <button onclick="window.print()">🖨️ بېسىپ چىقىرىش</button>
+    </div>
+
+    <section class="card" id="card">
+      <h2 id="previewName">قەدىرلىك دوستۇم ❤️</h2>
+      <div id="previewMessage"></div>
+      <p id="previewSignature" style="text-align:left;font-weight:bold"></p>
+    </section>
+
+    <p id="status" role="status"></p>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    function updateCard() {
+      $("previewName").textContent =
+        $("friend").value.trim() || "قەدىرلىك دوستۇم";
+
+      $("previewMessage").textContent = $("message").value;
+
+      $("previewSignature").textContent =
+        "ھۆرمەت بىلەن، " + ($("signature").value.trim() || "دوستۇڭ") + " ❤️";
+
+      const themes = {
+        pink: ["#fff0f6", "#6c1637"],
+        blue: ["#e0f2fe", "#164e63"],
+        gold: ["#fff7d6", "#713f12"],
+        green: ["#dcfce7", "#14532d"]
+      };
+
+      const colors = themes[$("theme").value];
+      $("card").style.background = colors[0];
+      $("card").style.color = colors[1];
+      $("status").textContent = "سالام خېتىڭىز تەييار! 💖";
+    }
+
+    function getText() {
+      return $("previewName").textContent + "\n\n" +
+        $("previewMessage").textContent + "\n\n" +
+        $("previewSignature").textContent;
+    }
+
+    async function copyMessage() {
+      updateCard();
+      try {
+        await navigator.clipboard.writeText(getText());
+        $("status").textContent = "خەت كۆچۈرۈلدى؛ ئۇنى ئۇچۇرغا چاپلاڭ.";
+      } catch (e) {
+        $("status").textContent =
+          "كۆچۈرۈش رۇخسىتى يوق. خەتنى تاللاپ قولدا كۆچۈرۈڭ.";
+      }
+    }
+
+    async function shareMessage() {
+      updateCard();
+      const text = getText();
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "دوستۇمغا سالام خەت",
+            text: text
+          });
+          $("status").textContent = "ھەمبەھىرلەش كۆزنىكى ئېچىلدى.";
+        } catch (e) {
+          if (e.name !== "AbortError") {
+            $("status").textContent = "ھەمبەھىرلەش مەغلۇپ بولدى.";
+          }
+        }
+      } else {
+        await copyMessage();
+        $("status").textContent =
+          "خەت كۆچۈرۈلدى. ئۇنى Telegram ياكى WhatsApp قا چاپلاڭ.";
+      }
+    }
+
+    function downloadMessage() {
+      updateCard();
+      const blob = new Blob([getText()], {
+        type: "text/plain;charset=utf-8"
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "salam-xet.txt";
+      a.click();
+      URL.revokeObjectURL(url);
+      $("status").textContent = "خەت چۈشۈرۈلدى.";
+    }
+
+    ["friend", "message", "signature", "theme"].forEach(id => {
+      $(id).addEventListener("input", updateCard);
+      $(id).addEventListener("change", updateCard);
+    });
+
+    updateCard();
+  </script>
+</body>
+</html>
