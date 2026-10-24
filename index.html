@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="ug" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دوستۇمغا سالام خەت</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      font-family: Tahoma, Arial, sans-serif;
+      background: linear-gradient(135deg, #dbeafe, #fce7f3);
+      color: #243047;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: white;
+      padding: 30px;
+      border-radius: 24px;
+      box-shadow: 0 12px 40px #33415525;
+    }
+
+    h1 {
+      text-align: center;
+      color: #7c3aed;
+      font-size: 28px;
+    }
+
+    .heart {
+      text-align: center;
+      font-size: 42px;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 8px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font: inherit;
+      font-size: 16px;
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+      line-height: 1.9;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #7c3aed;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover { background: #6d28d9; }
+
+    .secondary {
+      background: #0f766e;
+    }
+
+    .secondary:hover { background: #115e59; }
+
+    #status {
+      text-align: center;
+      color: #0f766e;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="heart">💌</div>
+    <h1>دوستۇمغا سالام خەت</h1>
+
+    <label for="friend">دوستىڭىزنىڭ ئىسمى</label>
+    <input id="friend" type="text" placeholder="دوستىڭىزنىڭ ئىسمىنى يېزىڭ">
+
+    <label for="message">سالام خېتىڭىز</label>
+    <textarea id="message">ئەسسالامۇ ئەلەيكۇم، قەدىرلىك دوستۇم!
+
+ياخشى تۇرىۋاتامسەن؟ سالامەتلىكىڭ ياخشىمۇ؟
+سېنى ئەسلەپ سالام يوللاپ قوياي دېدىم.
+ساڭا سالامەتلىك، بەخت ۋە ئىشلىرىڭغا ئۇتۇق تىلەيمەن.
+
+ھۆرمەت بىلەن، دوستۇڭ ❤️</textarea>
+
+    <button onclick="preview()">💖 خەتنى تەييارلاش</button>
+    <button class="secondary" onclick="shareMessage()">📨 دوستۇمغا يوللاش / ھەمبەھىرلەش</button>
+    <button onclick="copyMessage()">📋 خەتنى كۆچۈرۈش</button>
+
+    <p id="status" aria-live="polite"></p>
+  </main>
+
+  <script>
+    function getMessage() {
+      const name = document.getElementById("friend").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      return (name ? name + "،\n\n" : "") + message;
+    }
+
+    function preview() {
+      document.getElementById("status").textContent =
+        "خېتىڭىز تەييار! ئەمدى ھەمبەھىرلەش ياكى كۆچۈرۈشنى تاللاڭ.";
+    }
+
+    async function copyMessage() {
+      const text = getMessage();
+      try {
+        await navigator.clipboard.writeText(text);
+        document.getElementById("status").textContent =
+          "خەت كۆچۈرۈلدى! ئۇنى ئۇچۇرغا چاپلىسىڭىز بولىدۇ.";
+      } catch {
+        document.getElementById("status").textContent =
+          "خەتنى كۆچۈرۈش ئۈچۈن خەت رامكىسىدىكى تېكىستنى قولدا تاللاڭ.";
+      }
+    }
+
+    async function shareMessage() {
+      const text = getMessage();
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "دوستۇمغا سالام خەت",
+            text: text
+          });
+          document.getElementById("status").textContent =
+            "ھەمبەھىرلەش تاماملاندى ياكى ئەپكە يوللاندى.";
+        } catch (error) {
+          if (error.name !== "AbortError") {
+            document.getElementById("status").textContent =
+              "ھەمبەھىرلەش مەغلۇپ بولدى. خەتنى كۆچۈرۈپ يوللاڭ.";
+          }
+        }
+      } else {
+        await copyMessage();
+      }
+    }
+  </script>
+</body>
+</html>
